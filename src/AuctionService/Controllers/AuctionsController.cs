@@ -20,10 +20,8 @@ public class AuctionsController(AuctionDbContext context, IMapper mapper) : Cont
     {
         var query = _context.Auctions.OrderBy(x => x.Item.Make).AsQueryable();
         if (!string.IsNullOrEmpty(date))
-        {
             query = query.Where(x => x.UpdatedAt.CompareTo(DateTime.Parse(date).ToUniversalTime()) > 0);
-        }
-        
+
         return await query.ProjectTo<AuctionDto>(_mapper.ConfigurationProvider).ToListAsync();
     }
 
